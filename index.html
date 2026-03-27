@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연세유라인 치식표 - 임플란트 식립 위치</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #f8f9fb;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 20px 10px;
+}
+
+.chart-container {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  padding: 24px 20px 20px;
+  max-width: 720px;
+  width: 100%;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.chart-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: -0.5px;
+}
+
+.chart-title span {
+  color: #4a6cf7;
+}
+
+.btn-group {
+  display: flex;
+  gap: 6px;
+}
+
+.btn {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-reset {
+  background: #f1f3f5;
+  color: #666;
+}
+.btn-reset:hover { background: #e9ecef; }
+
+.btn-copy {
+  background: #4a6cf7;
+  color: #fff;
+}
+.btn-copy:hover { background: #3b5de7; }
+
+.btn-all-upper {
+  background: #e8f0fe;
+  color: #4a6cf7;
+}
+.btn-all-upper:hover { background: #d4e4fd; }
+
+.btn-all-lower {
+  background: #e6f9ed;
+  color: #16a34a;
+}
+.btn-all-lower:hover { background: #d1f5dd; }
+
+.jaw-section {
+  margin-bottom: 8px;
+}
+
+.jaw-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  padding-left: 2px;
+}
+
+.tooth-row {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+}
+
+.tooth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s;
+  width: 40px;
+}
+
+.tooth:hover {
+  transform: translateY(-1px);
+}
+
+.tooth:active {
+  transform: scale(0.95);
+}
+
+.tooth-number {
+  font-size: 10px;
+  font-weight: 500;
+  color: #8b95a5;
+  margin-bottom: 2px;
+  height: 14px;
+  line-height: 14px;
+}
+
+.tooth-body {
+  width: 36px;
+  height: 34px;
+  border-radius: 6px;
+  background: #e9ecf1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.tooth.upper .tooth-body {
+  border-radius: 6px 6px 4px 4px;
+}
+
+.tooth.lower .tooth-body {
+  border-radius: 4px 4px 6px 6px;
+}
+
+.tooth.selected .tooth-body {
+  background: #4a6cf7;
+  border-color: #3b5de7;
+  box-shadow: 0 2px 8px rgba(74,108,247,0.35);
+}
+
+.tooth.selected .tooth-body::after {
+  content: 'IMPL';
+  font-size: 8px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.tooth:not(.selected) .tooth-body::after {
+  content: '';
+}
+
+.tooth.selected .tooth-number {
+  color: #4a6cf7;
+  font-weight: 700;
+}
+
+.midline {
+  width: 1px;
+  background: #d0d5dd;
+  margin: 0 3px;
+  align-self: stretch;
+  opacity: 0.5;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, #d0d5dd 20%, #d0d5dd 80%, transparent);
+  margin: 8px 0;
+}
+
+.summary {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: #f8f9fb;
+  border-radius: 10px;
+  border: 1px solid #eef0f4;
+}
+
+.summary-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8b95a5;
+  margin-bottom: 6px;
+}
+
+.summary-content {
+  font-size: 12px;
+  color: #1a1a2e;
+  line-height: 1.6;
+  min-height: 20px;
+}
+
+.summary-content .tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  margin: 1px 2px;
+}
+
+.tag.upper {
+  background: #e8f0fe;
+  color: #4a6cf7;
+}
+
+.tag.lower {
+  background: #e6f9ed;
+  color: #16a34a;
+}
+
+.summary-count {
+  font-size: 12px;
+  color: #8b95a5;
+  margin-top: 4px;
+}
+
+.summary-count strong {
+  color: #4a6cf7;
+  font-weight: 700;
+}
+
+.copy-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #1a1a2e;
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0;
+  transition: all 0.3s;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.copy-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.note-area {
+  margin-top: 10px;
+}
+
+.note-area textarea {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #eef0f4;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #333;
+  background: #fafbfc;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.note-area textarea:focus {
+  border-color: #4a6cf7;
+}
+
+.note-area textarea::placeholder {
+  color: #bbb;
+}
+</style>
+</head>
+<body>
+
+<div class="chart-container">
+  <div class="chart-header">
+    <div class="chart-title">🦷 <span>임플란트</span> 식립 위치</div>
+    <div class="btn-group">
+      <button class="btn btn-reset" onclick="resetAll()">초기화</button>
+      <button class="btn btn-copy" onclick="copyResult()">복사</button>
+    </div>
+  </div>
+
+  <!-- 상악 -->
+  <div class="jaw-section">
+    <div class="jaw-label">상악 Maxilla</div>
+    <div class="tooth-row" id="upper-row"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 하악 -->
+  <div class="jaw-section">
+    <div class="jaw-label">하악 Mandible</div>
+    <div class="tooth-row" id="lower-row"></div>
+  </div>
+
+  <!-- 요약 -->
+  <div class="summary">
+    <div class="summary-label">선택된 임플란트 부위</div>
+    <div class="summary-content" id="summary-content">치아를 클릭하여 임플란트 식립 부위를 선택하세요</div>
+    <div class="summary-count" id="summary-count"></div>
+  </div>
+
+  <!-- 메모 -->
+  <div class="note-area">
+    <textarea placeholder="메모 (예: #36 골이식 동반, #46 상악동거상술 등)"></textarea>
+  </div>
+</div>
+
+<div class="copy-toast" id="toast">클립보드에 복사되었습니다</div>
+
+<script>
+const upperTeeth = [18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28];
+const lowerTeeth = [48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38];
+const selected = new Set();
+
+function createToothRow(teeth, containerId, jaw) {
+  const container = document.getElementById(containerId);
+  teeth.forEach((num, i) => {
+    if (i === 8) {
+      const mid = document.createElement('div');
+      mid.className = 'midline';
+      container.appendChild(mid);
+    }
+    const tooth = document.createElement('div');
+    tooth.className = `tooth ${jaw}`;
+    tooth.dataset.num = num;
+    tooth.onclick = () => toggleTooth(num, tooth);
+
+    const numEl = document.createElement('div');
+    numEl.className = 'tooth-number';
+    numEl.textContent = num;
+
+    const body = document.createElement('div');
+    body.className = 'tooth-body';
+
+    if (jaw === 'upper') {
+      tooth.appendChild(numEl);
+      tooth.appendChild(body);
+    } else {
+      tooth.appendChild(body);
+      tooth.appendChild(numEl);
+    }
+
+    container.appendChild(tooth);
+  });
+}
+
+function toggleTooth(num, el) {
+  if (selected.has(num)) {
+    selected.delete(num);
+    el.classList.remove('selected');
+  } else {
+    selected.add(num);
+    el.classList.add('selected');
+  }
+  updateSummary();
+}
+
+function updateSummary() {
+  const summaryEl = document.getElementById('summary-content');
+  const countEl = document.getElementById('summary-count');
+
+  if (selected.size === 0) {
+    summaryEl.innerHTML = '치아를 클릭하여 임플란트 식립 부위를 선택하세요';
+    countEl.textContent = '';
+    return;
+  }
+
+  const sorted = Array.from(selected).sort((a, b) => {
+    const qa = Math.floor(a / 10);
+    const qb = Math.floor(b / 10);
+    if (qa !== qb) return qa - qb;
+    if (qa <= 2) return (a % 10) - (b % 10);
+    return (b % 10) - (a % 10);
+  });
+
+  const upperSel = sorted.filter(n => n >= 11 && n <= 28);
+  const lowerSel = sorted.filter(n => n >= 31 && n <= 48);
+
+  let html = '';
+  upperSel.forEach(n => { html += `<span class="tag upper">#${n}</span>`; });
+  lowerSel.forEach(n => { html += `<span class="tag lower">#${n}</span>`; });
+
+  summaryEl.innerHTML = html;
+  countEl.innerHTML = `총 <strong>${selected.size}개</strong> 부위 선택`;
+}
+
+function resetAll() {
+  selected.clear();
+  document.querySelectorAll('.tooth').forEach(t => t.classList.remove('selected'));
+  updateSummary();
+}
+
+function copyResult() {
+  if (selected.size === 0) {
+    showToast('선택된 부위가 없습니다');
+    return;
+  }
+
+  const sorted = Array.from(selected).sort((a, b) => {
+    const qa = Math.floor(a / 10);
+    const qb = Math.floor(b / 10);
+    if (qa !== qb) return qa - qb;
+    if (qa <= 2) return (a % 10) - (b % 10);
+    return (b % 10) - (a % 10);
+  });
+
+  const text = `임플란트 식립 부위: ${sorted.map(n => '#' + n).join(', ')} (총 ${selected.size}개)`;
+  
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showToast('클립보드에 복사되었습니다'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('클립보드에 복사되었습니다');
+  }
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+createToothRow(upperTeeth, 'upper-row', 'upper');
+createToothRow(lowerTeeth, 'lower-row', 'lower');
+</script>
+
+</body>
+</html>
